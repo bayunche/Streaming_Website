@@ -7,7 +7,7 @@ import (
 
 // 定义一个流媒体播放资源结构体
 type Media struct {
-    gorm.Model
+	gorm.Model
 	ID            uint      `gorm:"primaryKey"`
 	CreatedAt     time.Time `gorm:"autoCreateTime"`
 	UpdatedAt     time.Time `gorm:"autoUpdateTime"`
