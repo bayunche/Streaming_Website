@@ -19,7 +19,7 @@ var DB *gorm.DB
 // 初始化数据库连接
 func InitDB() {
 	var err error
-	dsn := "host=localhost user=postgres password=123456 dbname=test port=5432 sslmode=disable"
+	dsn := "host=localhost user=postgres password=Dai2013! dbname=streamingDb port=5432 sslmode=disable"
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
 		NamingStrategy: schema.NamingStrategy{
@@ -43,7 +43,16 @@ func InitDB() {
 
 	// 自动迁移数据库表结构
 
-	err = DB.AutoMigrate(&models.User{}, &models.Media{})
+	err = DB.AutoMigrate(
+		&models.User{},
+		&models.LiveStream{},
+		&models.Video{},
+		&models.ChatMessage{},
+		&models.Comment{},
+		&models.Like{},
+		&models.File{},
+		&models.ViewHistory{},
+	)
 	if err != nil {
 		log.Fatal(err)
 	}
