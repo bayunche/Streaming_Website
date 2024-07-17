@@ -2,11 +2,10 @@ package main
 
 import (
 	"fmt"
-	"my-streaming-service/dbs"
 )
 
 func main() {
-	dbs.InitDB()
+	//dbs.InitDB()
 	fmt.Println("Hello, World!")
 
 }

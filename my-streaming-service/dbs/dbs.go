@@ -52,6 +52,7 @@ func InitDB() {
 		&models.Like{},
 		&models.File{},
 		&models.ViewHistory{},
+		&models.LiveRoom{},
 	)
 	if err != nil {
 		log.Fatal(err)

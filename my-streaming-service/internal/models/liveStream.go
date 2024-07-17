@@ -15,3 +15,13 @@ type LiveStream struct {
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 }
+
+type LiveRoom struct {
+	ID          uint   `gorm:"primaryKey"`
+	RoomName    string `gorm:"unique;not null"`
+	Description string `gorm:"unique;not null"`
+	UserID      string `gorm:"not null"`
+	RoomUrl     string `gorm:"unique;not null"`
+	RoomId      string `gorm:"unique;not null"`
+	createdAt   time.Time
+}
