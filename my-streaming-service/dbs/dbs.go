@@ -13,10 +13,10 @@ import (
 	"gorm.io/gorm/schema"
 )
 
-// 定义一个全局的DB变量
+// DB 定义一个全局的DB变量
 var DB *gorm.DB
 
-// 初始化数据库连接
+// InitDB 初始化数据库连接
 func InitDB() {
 	var err error
 	dsn := "host=localhost user=postgres password=Dai2013! dbname=streamingDb port=5432 sslmode=disable"
