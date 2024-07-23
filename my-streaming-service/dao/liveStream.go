@@ -1,9 +1,8 @@
 package dao
 
 import (
-	"my-streaming-service/internal/models"
-
 	"gorm.io/gorm"
+	"my-streaming-service/internal/models"
 )
 
 // 创建直播间
@@ -43,9 +42,13 @@ func QueryLiveRoom(roomName string, roomId string) (*gorm.DB, error) {
 
 // 删除直播间
 
-func DeleteLiveRoom(roomId string) error {
+func DeleteLiveRoom(roomId string) bool {
 
 	var LiveRoom models.LiveRoom
 	result := DB.Where("room_id = ?", roomId).Delete(&LiveRoom)
-	return result.Error
+
+	if result.Error != nil {
+		return false
+	}
+	return true
 }
