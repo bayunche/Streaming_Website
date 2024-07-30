@@ -1,10 +1,12 @@
 package service
 
 import (
-	"golang.org/x/crypto/bcrypt"
 	"log"
 	"my-streaming-service/dao"
+	"my-streaming-service/internal/models"
 	"my-streaming-service/modles"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 // LoginService 登录服务
@@ -55,4 +57,21 @@ func ComparePassword(password string, hash string) bool {
 	} else {
 		return true
 	}
+}
+
+// QueryUserService 查询用户服务
+func QueryUserService(userId string) (*models.User, error) {
+	userInfo, err := dao.GetUser(userId)
+	if err != nil {
+		return nil, err
+	}
+	return userInfo, nil
+}
+
+func UpdateUserService(userId string, user *models.User) error {
+	err := dao.UpdateUser(userId, user)
+	if err != nil {
+		return err
+	}
+	return nil
 }

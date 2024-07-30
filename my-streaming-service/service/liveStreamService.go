@@ -3,9 +3,9 @@ package service
 import (
 	"fmt"
 	"github.com/kjk/betterguid"
-	"gorm.io/gorm"
 	"log"
 	"my-streaming-service/dao"
+	"my-streaming-service/internal/models"
 	"net"
 	"os"
 	"sync"
@@ -141,28 +141,40 @@ func (m *Manager) PushStreamService(roomID string, packet av.Packet) {
 }
 
 // CreateLiveRoomService 创建直播间
-func CreateLiveRoomService(roomName string, userID string) {
+func CreateLiveRoomService(roomName string, userID string) error {
 	roomId := betterguid.New()
 	err := dao.CreateLiveRoom(roomName, userID, roomId)
 	if err != nil {
 		log.Printf("创建直播间失败: %v", err)
-		return
+		return err
 	}
+	return nil
 }
 
 // QueryLiveRoomService 查询直播间
-func QueryLiveRoomService(roomName string, roomId string) *gorm.DB {
+func QueryLiveRoomService(roomName string, roomId string) (*models.LiveRoom, error) {
 	room, err := dao.QueryLiveRoom(roomName, roomId)
 	if err != nil {
 		log.Printf("查询直播间失败: %v", err)
-		return nil
+		return nil, err
 	}
-	return room
+	return room, nil
+}
+
+// GetLiveRoomListService 获取直播间列表
+func GetLiveRoomListService(page string, size string) ([]models.LiveRoom, error) {
+	rooms, err := dao.GetLiveRoomList(page, size)
+	if err != nil {
+		log.Printf("获取直播间列表失败: %v", err)
+		return nil, err
+	}
+	return rooms, nil
 }
 
 // DeleteLiveRoomService 删除直播间
-func DeleteLiveRoomService(roomId string) bool {
-	return dao.DeleteLiveRoom(roomId)
+func DeleteLiveRoomService(roomId string, userId string) (bool, error) {
+	ok, err := dao.DeleteLiveRoom(roomId, userId)
+	return ok, err
 }
 
 // StopUserStreamServer 停止RTMP服务器
@@ -182,4 +194,15 @@ func (m *Manager) StopUserStreamServer(roomID string) {
 	} else {
 		log.Printf("没有找到直播间ID为 %s 的RTMP服务器", roomID)
 	}
+}
+
+// UpdateLiveRoomService 更新直播间
+func UpdateLiveRoomService(roomId string, userId string, liveRoomInfo models.LiveRoom) error {
+
+	ok, err := dao.UpdateLiveRoomInfo(roomId, userId, liveRoomInfo)
+	if ok == false && err != nil {
+		log.Printf("更新直播间失败: %v", err)
+		return err
+	}
+	return nil
 }

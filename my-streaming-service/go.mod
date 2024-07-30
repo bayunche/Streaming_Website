@@ -3,6 +3,7 @@ module my-streaming-service
 go 1.22.4
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.10.0
 	github.com/kjk/betterguid v0.0.0-20170621091430-c442874ba63a
 	github.com/nareix/joy4 v0.0.0-20200507095837-05a4ffbb5369
